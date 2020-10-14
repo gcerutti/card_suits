@@ -1,8 +1,11 @@
 # 8-suit Card Deck
 
 A Python script to generate a full deck of playing cards with 8 suits:
+
 * spades, hearts, diamonds & clovers
 * cups, acorns, shields & roses
+
+<image src="https://github.com/gcerutti/card_suits/blob/master/suits_BR.png" width="400px">
 
 ## Author:
 * Guillaume Cerutti (<guillaume.cerutti@gmail.com>)
