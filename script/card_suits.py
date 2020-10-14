@@ -5,8 +5,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.path import Path
 import matplotlib.patches as patch
+import matplotlib.font_manager as fm
 
 from imageio import imread
+
+from PyPDF2 import PdfFileMerger
 
 save_cards = True
 
@@ -495,12 +498,39 @@ if save_cards:
     figures = ['V','D','R','A']
     watermark = ['A']
 
-    scale = 1.166
+    scale = 1.133
     suit_coef = 2.
-    number_coef = 0.75
+    number_coef = 1.
     figure_coef = 4.
     watermark_coef = 8.*scale
 
+    figure = plt.figure(2)
+    figure.clf()
+
+    for i in range(50):
+        for i_s, suit in enumerate(codes.keys()):
+            center = 1-2*np.random.rand(2)
+
+            rotation_matrix = np.array([[np.cos(np.pi / 6), np.sin(np.pi / 6)],
+                                        [-np.sin(np.pi / 6), np.cos(np.pi / 6)]])
+            verts = np.einsum("...ij,...j->...i", rotation_matrix, np.array(vertices[suit]))
+
+            for y in [-2,0,2]:
+                path = Path(6.*(center + np.array([0,y]) + verts), codes[suit])
+
+                suit_patch = patch.PathPatch(path, ec=colors[suit], fc='none', alpha=0.5, lw=5)
+                figure.gca().add_patch(suit_patch)
+
+    figure.gca().axis('auto')
+    figure.gca().set_xlim(-5.7, 5.7)
+    figure.gca().set_ylim(-8.8, 8.8)
+    figure.gca().axis('off')
+
+    figure.set_size_inches(2.283, 3.503)
+    figure.tight_layout()
+    figure.savefig("../cards/back.pdf", dpi=300)
+
+    merger = PdfFileMerger()
     for i_s, suit in enumerate(codes.keys()):
         for n in centers.keys():
             figure = plt.figure(2)
@@ -517,7 +547,6 @@ if save_cards:
 
             rect = patch.Rectangle((6.*scale,-4.5*scale),height=figure_coef*scale,width=0.5*figure_coef*scale,fc='w',ec='none',angle=180)
             figure.gca().add_patch(rect)
-
 
             if n in watermark:
                 path = Path(scale*(watermark_coef*np.array(vertices[suit])), codes[suit])
@@ -549,13 +578,15 @@ if save_cards:
                     suit_patch = patch.PathPatch(path, fc='w', ec=colors[suit], alpha=0.5, linewidth=2)
                     figure.gca().add_patch(suit_patch)
 
-            figure.gca().text(-5.2,8.3,str(n),color=colors[suit], size=28, ha='center', va='center', fontname='Avenir', fontweight='bold')
-            path = Path((np.array([-5.2,7.5]) + number_coef * np.array(vertices[suit])), codes[suit])
+            font = fm.FontProperties(family='Raleway', fname='/Users/gcerutti/Library/Fonts/Raleway-Regular.ttf', size=24)
+
+            figure.gca().text(-5.2,8.4,str(n),color=colors[suit], ha='center', va='center', fontproperties=font)
+            path = Path((np.array([-5.2,7.]) + number_coef * np.array(vertices[suit])), codes[suit])
             suit_patch = patch.PathPatch(path, fc=colors[suit], ec='none', alpha=1)
             figure.gca().add_patch(suit_patch)
 
-            figure.gca().text(5.2,-8.3,str(n),color=colors[suit], size=28, ha='center', va='center', rotation=180, fontname='Avenir', fontweight='bold')
-            path = Path((np.array([5.2,-7.5]) - number_coef * np.array(vertices[suit])), codes[suit])
+            figure.gca().text(5.2,-8.4,str(n),color=colors[suit], ha='center', va='center', rotation=180, fontproperties=font)
+            path = Path((np.array([5.2,-7.]) - number_coef * np.array(vertices[suit])), codes[suit])
             suit_patch = patch.PathPatch(path, fc=colors[suit], ec='none', alpha=1)
             figure.gca().add_patch(suit_patch)
 
@@ -564,33 +595,11 @@ if save_cards:
             figure.gca().set_ylim(-8.8, 8.8)
             figure.gca().axis('off')
 
-            figure.set_size_inches(5.7,8.8)
+            figure.set_size_inches(2.283, 3.503)
             figure.tight_layout()
             name = names[n] if n in names else str(n).zfill(2)
-            figure.savefig("../cards/"+name+"_"+str(suit)+".png")
+            figure.savefig("../cards/"+name+"_"+str(suit)+".pdf", dpi=300)
+            merger.append("../cards/"+name+"_"+str(suit)+".pdf")
 
-    figure = plt.figure(3)
-    figure.clf()
-
-    for i in range(50):
-        for i_s, suit in enumerate(codes.keys()):
-            center = 1-2*np.random.rand(2)
-
-            rotation_matrix = np.array([[np.cos(np.pi / 6), np.sin(np.pi / 6)],
-                                        [-np.sin(np.pi / 6), np.cos(np.pi / 6)]])
-            verts = np.einsum("...ij,...j->...i", rotation_matrix, np.array(vertices[suit]))
-
-            for y in [-2,0,2]:
-                path = Path(6.*(center + np.array([0,y]) + verts), codes[suit])
-
-                suit_patch = patch.PathPatch(path, ec=colors[suit], fc='none', alpha=0.5, lw=5)
-                figure.gca().add_patch(suit_patch)
-
-    figure.gca().axis('auto')
-    figure.gca().set_xlim(-5.7, 5.7)
-    figure.gca().set_ylim(-8.8, 8.8)
-    figure.gca().axis('off')
-
-    figure.set_size_inches(5.7, 8.8)
-    figure.tight_layout()
-    figure.savefig("../cards/back.png")
+    merger.write("../cards/all_cards.pdf")
+    merger.close()

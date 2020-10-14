@@ -74,6 +74,6 @@ cd path/to/card_suits/script
 python card_suits.py
 ```
 
-> **NOTE:** the deck will be generated as separate `.png` files under the `cards` folder. 
+> **NOTE:** the deck will be generated as separate `.pdf` files and a single merged `all_cards.pdf` file, under the `cards` folder. 
 
 

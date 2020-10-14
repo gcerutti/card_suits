@@ -1,7 +1,11 @@
 name: card_suits
 
+channels:
+  - conda-forge
+
 dependencies:
   - python=3.7.*
   - numpy
   - matplotlib
   - imageio
+  - pypdf2
