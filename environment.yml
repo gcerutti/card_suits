@@ -1,0 +1,7 @@
+name: card_suits
+
+dependencies:
+  - python=3.7.*
+  - numpy
+  - matplotlib
+  - imageio
