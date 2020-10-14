@@ -1,9 +1,9 @@
 # 8-suit Card Deck
 
-A Python script to generate a full deck of playing cards with 8 suits:
+A Python script to generate a full deck of French playing cards with 8 suits:
 
-* spades, hearts, diamonds & clovers
-* cups, acorns, shields & roses
+* pique, cœur, carreau & trèfle (spades, hearts, diamonds & clovers)
+* coupe, gland, écu et rose (cups, acorns, shields & roses)
 
 <image src="https://github.com/gcerutti/card_suits/blob/master/suits_BR.png" width="400px">
 
