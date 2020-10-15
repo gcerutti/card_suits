@@ -1,4 +1,5 @@
 import os
+import argparse
 
 import numpy as np
 
@@ -10,6 +11,10 @@ import matplotlib.font_manager as fm
 from imageio import imread
 
 from PyPDF2 import PdfFileMerger
+
+parser = argparse.ArgumentParser()
+parser.add_argument('-c', '--suit-colors', default='rainbow', help='Color scheme for the suits',choices=['rainbow', 'red_black'])
+args = parser.parse_args()
 
 save_cards = True
 
@@ -383,25 +388,29 @@ rotation_matrix = np.array([[np.cos(np.pi/4), np.sin(np.pi/4)],
                             [-np.sin(np.pi/4), np.cos(np.pi/4)]])
 vertices['rose'] = np.einsum("...ij,...j->...i", rotation_matrix, vertices['rose'])
 
-colors['pique'] = '#000000'
-colors['coeur'] = '#cc0000'
-colors['carreau'] = '#ff6600'
-#colors['or'] = '#cccc00'
-colors['coupe'] = "#cccc00"
-colors['gland'] = '#009900'
-# colors['coupe'] = '#0099ff'
-colors['ecu'] = '#0099ff'
-colors['trefle'] = '#000099'
-# colors['ecu'] = '#660099'
-colors['rose'] = '#660099'
-# colors['rose'] = '#cc3399'
-# colors['carreau'] = '#cc0000'
-# # colors['or'] = '#cc0000'
-# colors['ecu'] = '#000000'
-# colors['gland'] = '#000000'
-# colors['coupe'] = '#cc0000'
-# colors['trefle'] = '#000000'
-# colors['rose'] = '#cc0000'
+if args.suit_colors == "rainbow":
+    colors['pique'] = '#000000'
+    colors['coeur'] = '#cc0000'
+    colors['carreau'] = '#ff6600'
+    #colors['or'] = '#cccc00'
+    colors['coupe'] = "#cccc00"
+    colors['gland'] = '#009900'
+    # colors['coupe'] = '#0099ff'
+    colors['ecu'] = '#0099ff'
+    colors['trefle'] = '#000099'
+    # colors['ecu'] = '#660099'
+    colors['rose'] = '#660099'
+elif args.suit_colors == "red_black":
+    colors['pique'] = '#000000'
+    colors['coeur'] = '#cc0000'
+    colors['rose'] = '#cc3399'
+    colors['carreau'] = '#cc0000'
+    # colors['or'] = '#cc0000'
+    colors['ecu'] = '#000000'
+    colors['gland'] = '#000000'
+    colors['coupe'] = '#cc0000'
+    colors['trefle'] = '#000000'
+    colors['rose'] = '#cc0000'
 
 suit_centers = {}
 suit_centers['pique'] = (0,1)

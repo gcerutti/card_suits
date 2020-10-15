@@ -14,6 +14,8 @@ A Python script to generate a full deck of French playing cards with 8 suits:
 
 * [Based on an original idea from the Dragon Company](http://www.dragoncompany.org/crafting-additional-playing-card-suits/)
 
+<image src="https://github.com/gcerutti/card_suits/blob/master/deck.png" width="600px">
+
 ## Installation
 
 ### Pre-requisite : Install conda
