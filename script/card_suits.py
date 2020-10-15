@@ -17,6 +17,7 @@ parser.add_argument('-c', '--suit-colors', default='rainbow', help='Color scheme
 args = parser.parse_args()
 
 save_cards = True
+double_numbers = True
 
 vertices = {}
 codes = {}
@@ -639,6 +640,17 @@ if save_cards:
             path = Path((np.array([5.2,-7.]) - number_coef * np.array(vertices[suit])), codes[suit])
             suit_patch = patch.PathPatch(path, fc=colors[suit], ec='none', alpha=1)
             figure.gca().add_patch(suit_patch)
+
+            if double_numbers:
+                figure.gca().text(5.2,8.4,str(n),color=colors[suit], ha='center', va='center', fontproperties=font)
+                path = Path((np.array([5.2,7.]) + number_coef * np.array(vertices[suit])), codes[suit])
+                suit_patch = patch.PathPatch(path, fc=colors[suit], ec='none', alpha=1)
+                figure.gca().add_patch(suit_patch)
+
+                figure.gca().text(-5.2, -8.4, str(n), color=colors[suit], ha='center', va='center', rotation=180, fontproperties=font)
+                path = Path((np.array([-5.2, -7.]) - number_coef * np.array(vertices[suit])), codes[suit])
+                suit_patch = patch.PathPatch(path, fc=colors[suit], ec='none', alpha=1)
+                figure.gca().add_patch(suit_patch)
 
             figure.gca().axis('auto')
             figure.gca().set_xlim(-5.7, 5.7)
