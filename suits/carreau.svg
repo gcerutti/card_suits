@@ -1,0 +1,6 @@
+<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+<g class="layer">
+  <title>carreau</title>
+  <path id="carreau" d="M 20.0, 100.0 Q 68.0, 68.0 100.0, 20.0 Q 132.0, 68.0 180.0, 100.0 Q 132.0, 132.0 100.0, 180.0 Q 68.0, 132.0 20.0, 100.0 Z " stroke="none" fill="#ff6600" />
+</g>
+</svg>

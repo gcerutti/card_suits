@@ -457,7 +457,48 @@ figure.gca().axis('equal')
 figure.gca().set_xlim(-1, 1)
 figure.show()
 
+for i_s, suit in enumerate(codes.keys()):
+    svg_file = open("../suits/"+suit+".svg","w+")
+    svg_file.write("<svg width=\"200\" height=\"200\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:svg=\"http://www.w3.org/2000/svg\">\n")
+    svg_file.write("<g class=\"layer\">\n")
+    svg_file.write("  <title>"+suit+"</title>\n")
+    svg_file.write("  <path id=\""+suit+"\" d=\"")
 
+    q_index = 0
+    c_index = 0
+    for (x,y), c in zip(vertices[suit],codes[suit]):
+        svg_x = 100 + 160*x
+        svg_y = 100 - 160*y
+        if c == Path.MOVETO:
+            svg_file.write("M "+str(svg_x)+", "+str(svg_y)+" ")
+        elif c == Path.LINETO:
+            svg_file.write("L "+str(svg_x)+", "+str(svg_y)+" ")
+        elif c == Path.CURVE3:
+            if q_index == 0:
+                svg_file.write("Q ")
+            svg_file.write(str(svg_x) + ", " + str(svg_y) + " ")
+            q_index = (q_index+1) % 2
+        elif c == Path.CURVE4:
+            if c_index == 0:
+                svg_file.write("C ")
+            svg_file.write(str(svg_x) + ", " + str(svg_y) + " ")
+            c_index = (c_index+1) % 3
+        elif c == Path.CLOSEPOLY:
+            svg_file.write("Z ")
+    svg_file.write("\" ")
+    #svg_file.write("stroke-linecap=\"null\" ")
+    #svg_file.write("stroke-linejoin=\"null\" ")
+    #svg_file.write("stroke-dasharray=\"null\" ")
+    #svg_file.write("stroke-width=\"5\" ")
+    #svg_file.write("stroke=\"#000000\" ")
+    svg_file.write("stroke=\"none\" ")
+    #svg_file.write("fill=\"none\" ")
+    svg_file.write("fill=\""+colors[suit]+"\" ")
+    svg_file.write("/>\n")
+    svg_file.write("</g>\n")
+    svg_file.write("</svg>\n")
+    svg_file.flush()
+    svg_file.close()
 
 if save_cards:
     centers = {}

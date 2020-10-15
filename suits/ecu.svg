@@ -1,0 +1,6 @@
+<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+<g class="layer">
+  <title>ecu</title>
+  <path id="ecu" d="M 100.0, 20.0 Q 68.0, 68.0 36.0, 52.0 L 36.0, 100.0 C 36.0, 148.0 68.0, 132.0 100.0, 180.0 C 132.0, 132.0 164.0, 148.0 164.0, 100.0 L 164.0, 52.0 Q 132.0, 68.0 100.0, 20.0 Z " stroke="none" fill="#0099ff" />
+</g>
+</svg>
